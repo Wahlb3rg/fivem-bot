@@ -20,8 +20,8 @@ const client = new Discord.Client({
         Discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING
     ]
 }); // botten er lig med dens client
-
 const botconfig = require('./botconfig.json'); // tager bot config 
+const token = require('./token.json'); // tager bot config 
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
 client.commands = new Discord.Collection(); // tillader brug af kommando fra ekstern mappe
 
@@ -88,4 +88,4 @@ client.on('messageCreate', async message => {
     let commandfile = client.commands.get(cmd.slice(prefix.length));    // Bruger kommando fra ekstern mappe
     if (commandfile) commandfile.run(client, message, args);             // Hvis det er en kommando fra ekstern mappe skal den bruges alligevel
 })
-client.login(botconfig.token)
+client.login(token.token)
