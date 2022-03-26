@@ -11,19 +11,22 @@ module.exports.run = async (client, message, args) => {
             message.delete();
 
             let kanalen = message.channel.id
+            let sent = await message.channel.send(stickyMessageContent) // this returns the message you just sent
+            let idtilbeskeden = sent.id;
 
             if (!besked[kanalen]) besked[kanalen] = {
                 besked: stickyMessageContent,
-                messageCount: 0
+                messageCount: 0,
+                beksedid: idtilbeskeden
             };
-            besked[kanalen].messageCount++;
+            besked[kanalen].messageCount = 0;
             besked[kanalen].besked = stickyMessageContent;
+            besked[kanalen].beskedid = idtilbeskeden;
 
             fs.writeFile("commands/stickey.json", JSON.stringify(besked, null, 4), (err) => {
                 if (err) console.log(err)
             });
 
-            message.channel.send(`Ja der burde sket det at dne skriver. Det her er kanalen ${kanalen}\n${stickyMessageContent}`)
         } catch (error) {
             console.error(error);
         }

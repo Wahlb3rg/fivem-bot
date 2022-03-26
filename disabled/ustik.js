@@ -10,18 +10,15 @@ module.exports.run = async (client, message, args) => {
             message.delete();
             let kanalen = message.channel.id
 
-            if (!besked[kanalen]) besked[kanalen] = {
-                besked: "",
-                messageCount: 0
-            };
+            if (!besked[kanalen]) return;
             besked[kanalen].messageCount = 0;
             besked[kanalen].besked = "";
+            besked[kanalen].beskedid = "";
 
             fs.writeFile("commands/stickey.json", JSON.stringify(besked, null, 4), (err) => {
                 if (err) console.log(err)
             });
-
-            message.channel.send(`Ja der burde sket det at dne skriver. Det her er kanalen <#${kanalen}>\n${stickyMessageContent}`)
+            
         } catch (error) {
             console.error(error);
         }

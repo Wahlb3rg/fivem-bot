@@ -75,8 +75,8 @@ const botstat = require("./events/status.js");
 botstat(client)
 const sup = require("./events/support.js")
 sup(client)
-//const stick = require("./disabled/stickey.js");
-//stick(client)
+const stick = require("./disabled/stickey.js");
+stick(client)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
