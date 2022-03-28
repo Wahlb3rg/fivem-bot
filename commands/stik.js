@@ -17,11 +17,13 @@ module.exports.run = async (client, message, args) => {
             if (!besked[kanalen]) besked[kanalen] = {
                 besked: stickyMessageContent,
                 messageCount: 0,
-                beksedid: idtilbeskeden
+                beksedid: idtilbeskeden,
+                kanid: kanalen
             };
             besked[kanalen].messageCount = 0;
             besked[kanalen].besked = stickyMessageContent;
             besked[kanalen].beskedid = idtilbeskeden;
+            besked[kanalen].kanid = kanalen
 
             fs.writeFile("commands/stickey.json", JSON.stringify(besked, null, 4), (err) => {
                 if (err) console.log(err)

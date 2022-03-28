@@ -11,7 +11,8 @@ module.exports = function (client, message) {
         if (message.author.bot) return;
         let kanalen = message.channel.id;
         console.log(message.channel.id)
-        console.log(besked)
+        console.log(besked[kanalen])
+        
         if (kanalen === besked) {
             besked[kanalen].messageCount++;
             console.log(message.content);
@@ -21,5 +22,13 @@ module.exports = function (client, message) {
                 besked[kanalen].messageCount = 0;
             }
         }
+
+        //search for title in json file
+        //if title is found, set value messageCount to 0
+
+        //if messageCount is less than 3, do nothing
+        //if messageCount is greater than 3, delete message and send sticky message
+
+
     });
 }
