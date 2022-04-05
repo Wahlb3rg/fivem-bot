@@ -3,7 +3,7 @@ const fs = require("fs");
 
 module.exports.run = async (client, message, args) => {
 
-    let besked = JSON.parse(fs.readFileSync("commands/stickey.json", "utf8"));
+    let besked = JSON.parse(fs.readFileSync("normcommands/stickey.json", "utf8"));
 
     if (message.member.roles.cache.some(role => role.name === 'Staff')) {
         try {
@@ -25,7 +25,7 @@ module.exports.run = async (client, message, args) => {
             besked[kanalen].beskedid = idtilbeskeden;
             besked[kanalen].kanid = kanalen
 
-            fs.writeFile("commands/stickey.json", JSON.stringify(besked, null, 4), (err) => {
+            fs.writeFile("normcommands/stickey.json", JSON.stringify(besked, null, 4), (err) => {
                 if (err) console.log(err)
             });
 
