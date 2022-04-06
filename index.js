@@ -28,12 +28,13 @@ const client = new Client({
 client.once('ready', (client) => {console.log(`Logget ind som ${client.user.username}`)});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
+    console.log(`Loaded Slash commands ${file}.`); // printer hvilke kommandoer der er loaded
+    console.log(`--------------------------`); // printer fin opstilling mellem kommandoer
 	client.commands.set(command.data.name, command);
 }
 
@@ -109,13 +110,21 @@ const role = require("./events/role-claim.js");
 role(client)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+client.on('messageCreate', async (message) => {
+    
+    if (!message.author.bot) {
+        if (message.content.includes('support' || 'suport')) {
+            message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
+        }
+    }
+})
 
-/*client.on('messageCreate', async message => {
+client.on('messageCreate', async message => {
     let messageArray = message.content.split(" ");
     let args = messageArray.slice(1);                                   // Tager args
     let cmd = messageArray[0];                                          // tager det første ord som er lig med kommandoen
     let prefix = botconfig.prefix;                                      // Tager prefixet fra bot config
     let commandfile = client.commands.get(cmd.slice(prefix.length));    // Bruger kommando fra ekstern mappe
     if (commandfile) commandfile.run(client, message, args);             // Hvis det er en kommando fra ekstern mappe skal den bruges alligevel
-})*/
+})
 client.login(token.token)

@@ -7,7 +7,7 @@ module.exports = (client) => {
     client.on('interactionCreate', async interaction => {
         if (!interaction.isCommand()) return;
     
-        if (interaction.commandName === 'ping') {
+        if (interaction.commandName === 'faarolle') {
             const row = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
