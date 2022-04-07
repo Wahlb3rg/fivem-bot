@@ -10,18 +10,17 @@ module.exports = function (client, message) {
     client.on("messageCreate", async function (message) {
         if (message.author.bot) return;
         let kanalen = message.channel.id;
-        //console.log(message.channel.id)
-        //console.log(besked)
         
-        if (kanalen === besked[kanalen]) {
+        
+        //if (message.channel.id === besked[kanalen]) {
+            console.log(`${besked[kanalen].messageCount}`)
             besked[kanalen].messageCount++;
-            console.log(message.content);
             if (besked[kanalen].messageCount <= 3) {
                 await besked[kanalen].beskedid.delete();
                 await message.channel.send(besked[kanalen].besked);
                 besked[kanalen].messageCount = 0;
             }
-        }
+        //}
 
     });
 }
