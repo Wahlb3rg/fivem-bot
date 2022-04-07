@@ -12,7 +12,7 @@ module.exports = {
         .setColor(0xFFFF00)
         .setTitle(ipc.titel)
         .setDescription(`Server:\`\`\`${ipc.publicIp}\`\`\``)//Teamspeak:\`\`\`94.130.237.93\`\`\`
-        .setFooter({ text: 'Lavet af wahlberg#6270' })
+        //.setFooter({ text: 'Lavet af wahlberg#6270' })
         .setTimestamp()
 
 		await interaction.reply({ embeds: [Embed] });

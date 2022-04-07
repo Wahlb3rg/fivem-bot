@@ -1,4 +1,4 @@
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, Intents, Collection, Formatters } = require('discord.js');
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
 
 const botconfig = require('./botconfig.json'); // tager bot config 
@@ -48,13 +48,29 @@ client.on('interactionCreate', async interaction => {
 	if (!command) return;
 
 	try {
-		//await command.execute(interaction);
-        console.log(interaction);
+		await command.execute(interaction);
+        //console.log(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.reply({ content: 'Der var en fejl under udførelsen af denne kommando!\nHvis denne fejl ikke forsvinder så kontakt wahlberg', ephemeral: true });
 	}
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*client.on('modalSubmit', async (modal) => {
+  if(modal.customId === 'suportmodalID'){
+    const firstResponse = modal.getTextInputValue('suporttekstID')
+    await modal.deferReply({ ephemeral: true })
+    modal.followUp({ content: 'Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse), ephemeral: true })
+  }  
+});*/
+
+client.on('modalSubmit', async (modal) => {
+    if(modal.customId === 'suportmodalID'){
+      const firstResponse = modal.getTextInputValue('suporttekstID')
+      modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse))
+    }  
+  });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

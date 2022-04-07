@@ -9,7 +9,15 @@ module.exports = function (client) {
                 if (err) { // logger hvis der er fejl
                     console.log(err);
                     console.log(data); // logger fejlen
-                } else { //  ellers skal den sætte activity
+                } else {//  ellers skal den sætte activity
+                    
+                    
+                    /*let myGuild = client.guilds.get(clientconfig.serverID);
+                    let memberCount = myGuild.memberCount;
+                    let memberCountChannel = myGuild.channels.get(clientconfig.memberchannelID);
+                    memberCountChannel.setName("Member•" + memberCount + "•User")*/
+
+
                     if (data.clients <= 5) {
                         client.user.setPresence({ activities: [{ name: `Få folk i byen`, type: 'WATCHING' }] });
                         client.channels.cache.get('947498929715556372').setName(`Antal spillere: ${data.clients}/${data.maxclients}`)//.then(client.channels.cache.get('842471936952631336').send('Opdaterde antal'))
@@ -20,6 +28,7 @@ module.exports = function (client) {
                         client.user.setPresence({ activities: [{ name: `${data.clients} i byen`, type: 'WATCHING' }] });//  /${data.maxclients}
                         client.channels.cache.get('947498929715556372').setName(`Antal spillere: ${data.clients}/${data.maxclients}`)
                     }
+
                 }
                 if (err) console.log(err);
             });
