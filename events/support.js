@@ -12,7 +12,7 @@ module.exports = function (client) {
     .addComponents([
       new TextInputComponent() // We create a Text Input Component
         .setCustomId('suporttekstID')
-        .setLabel('Some text Here')
+        .setLabel('Beskriv dit problem')
         .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
         .setMinLength(25)
         .setMaxLength(500)
