@@ -119,8 +119,8 @@ const velkommen = require("./events/velkommen.js");
 velkommen(client);
 const botstat = require("./events/status.js");
 botstat(client)
-const sup = require("./events/support.js")
-sup(client)
+//const sup = require("./commands/support.js")
+//sup(client)
 const stick = require("./disabled/stickey.js");
 stick(client)
 const role = require("./events/role-claim.js");
