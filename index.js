@@ -74,10 +74,11 @@ client.on('modalSubmit', async (modal) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+let jsfile = files.filter(f => f.split(".").pop() === "js")
+
 fs.readdir("./normcommands/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
 
-    let jsfile = files.filter(f => f.split(".").pop() === "js") //søger js filer
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
         console.log("Couldn't find commands."); // logger fejl
         return;
@@ -95,7 +96,6 @@ fs.readdir("./normcommands/", (err, files) => { // læser directory omkring comm
 fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
 
-    let jsfile = files.filter(f => f.split(".").pop() === "js") //søger js filer
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
         console.log("Couldn't find commands."); // logger fejl
         return;
