@@ -1,4 +1,3 @@
-const sc = require('../config/senderconfig.json');
 const { MessageEmbed } = require("discord.js");
 module.exports.run = async (client, message, args) => {
     
@@ -14,11 +13,11 @@ module.exports.run = async (client, message, args) => {
     console.log(d.toLocaleDateString());
 
     var besked = new MessageEmbed()
-    .setTitle(sc.title)
+    .setTitle("")
     .setDescription(tingting)// beskeden
     .setFooter({ text: `Lavet af wahlberg#6270`})
     .setTimestamp()
-    .setColor(sc.farve)
+    .setColor(0xdd6544)
     
     message.channel.send({ embeds: [besked] })
 
