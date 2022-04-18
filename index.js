@@ -25,60 +25,78 @@ const client = new Client({
     ]
 }); // botten er lig med dens client
 
-client.once('ready', (client) => {console.log(`Logget ind som ${client.user.username}`)});
+client.once('ready', (client) => { console.log(`Logget ind som ${client.user.username}`) });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+    const command = require(`./commands/${file}`);
     console.log(`Loaded Slash commands ${file}.`); // printer hvilke kommandoer der er loaded
     console.log(`--------------------------`); // printer fin opstilling mellem kommandoer
-	client.commands.set(command.data.name, command);
+    client.commands.set(command.data.name, command);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+    if (!interaction.isCommand()) return;
 
-	const command = client.commands.get(interaction.commandName);
+    const command = client.commands.get(interaction.commandName);
 
-	if (!command) return;
+    if (!command) return;
 
-	try {
-		await command.execute(interaction);
+    try {
+        await command.execute(interaction);
         //console.log(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'Der var en fejl under udførelsen af denne kommando!\nHvis denne fejl ikke forsvinder så kontakt wahlberg', ephemeral: true });
-	}
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'Der var en fejl under udførelsen af denne kommando!\nHvis denne fejl ikke forsvinder så kontakt wahlberg', ephemeral: true });
+    }
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const discordModals = require('discord-modals')
+discordModals(client);
 
-/*client.on('modalSubmit', async (modal) => {
-  if(modal.customId === 'suportmodalID'){
-    const firstResponse = modal.getTextInputValue('suporttekstID')
-    await modal.deferReply({ ephemeral: true })
-    modal.followUp({ content: 'Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse), ephemeral: true })
-  }  
-});*/
+const { Modal, TextInputComponent, showModal } = require('discord-modals') // Now we extract the showModal method
+const modal = new Modal() // We create a Modal
+    .setCustomId('suportmodalID') // We set the custom ID
+    .setTitle('Support')
+    .addComponents([
+        new TextInputComponent() // We create a Text Input Component
+            .setCustomId('suporttekstID')
+            .setLabel('Beskriv dit problem')
+            .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+            .setMinLength(25)
+            .setMaxLength(500)
+            .setPlaceholder('Der var en bug og jeg har mistet mine penge')
+            .setRequired(true) // If it's required or not
+    ]);
+
+client.on('interactionCreate', (interaction) => {
+    // Let's say the interaction will be a Slash Command called 'support'.
+    if (interaction.commandName === 'support') {
+        showModal(modal, {
+            client: client, // Client to show the Modal through the Discord API.
+            interaction: interaction // Show the modal with interaction data.
+        })
+    }
+
+});
 
 client.on('modalSubmit', async (modal) => {
-    if(modal.customId === 'suportmodalID'){
-      const firstResponse = modal.getTextInputValue('suporttekstID')
-      modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse))
-    }  
-  });
+    if (modal.customId === 'suportmodalID') {
+        const firstResponse = modal.getTextInputValue('suporttekstID')
+        modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse))
+    }
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-let jsfile = files.filter(f => f.split(".").pop() === "js")
 
 fs.readdir("./normcommands/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
-
+    let jsfile = files.filter(f => f.split(".").pop() === "js")
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
         console.log("Couldn't find commands."); // logger fejl
         return;
@@ -95,7 +113,7 @@ fs.readdir("./normcommands/", (err, files) => { // læser directory omkring comm
 
 fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
-
+    let jsfile = files.filter(f => f.split(".").pop() === "js")
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
         console.log("Couldn't find commands."); // logger fejl
         return;
@@ -128,7 +146,7 @@ role(client)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 client.on('messageCreate', async (message) => {
-    
+
     if (!message.author.bot) {
         if (message.content.includes('support' || 'suport')) {
             message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
