@@ -7,13 +7,13 @@ module.exports = function (client, message) {
 
     let besked = JSON.parse(fs.readFileSync("normcommands/stickey.json", "utf8"));
 
-    client.on("messageCreate", async function (message) {
+    /*client.on("messageCreate", async function (message) {
         if (message.author.bot) return;
         let kanalen = message.channel.id;
         
         
         //if (message.channel.id === besked[kanalen]) {
-            console.log(`${besked[kanalen].messageCount}`)
+            //console.log(`${besked[kanalen].messageCount}`)
             besked[kanalen].messageCount++;
             if (besked[kanalen].messageCount <= 3) {
                 await besked[kanalen].beskedid.delete();
@@ -22,5 +22,5 @@ module.exports = function (client, message) {
             }
         //}
 
-    });
+    });*/
 }
