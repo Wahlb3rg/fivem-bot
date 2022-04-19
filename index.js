@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, Formatters } = require('discord.js');
+const { Client, Intents, Collection, Formatters, MessageActionRow, MessageSelectMenu } = require('discord.js');
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
 
 const botconfig = require('./botconfig.json'); // tager bot config 
@@ -68,11 +68,31 @@ const modal = new Modal() // We create a Modal
             .setCustomId('suporttekstID')
             .setLabel('Beskriv dit problem')
             .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
-            .setMinLength(25)
+            .setMinLength(1)//25
             .setMaxLength(500)
             .setPlaceholder('Der var en bug og jeg har mistet mine penge')
             .setRequired(true) // If it's required or not
-    ]);
+    ])
+    .addComponents([
+        new TextInputComponent() // We create a Text Input Component
+            .setCustomId('suporttekstID2')
+            .setLabel('Beskriv dit problem')
+            .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+            .setMinLength(1)//25
+            .setMaxLength(500)
+            .setPlaceholder('Der var en bug og jeg har mistet mine penge')
+            .setRequired(true) // If it's required or not
+    ])
+    .addComponents([
+        new TextInputComponent() // We create a Text Input Component
+            .setCustomId('suporttekstID3')
+            .setLabel('Beskriv dit problem')
+            .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+            .setMinLength(1)//25
+            .setMaxLength(500)
+            .setPlaceholder('Der var en bug og jeg har mistet mine penge')
+            .setRequired(true) // If it's required or not
+    ])
 
 client.on('interactionCreate', (interaction) => {
     // Let's say the interaction will be a Slash Command called 'support'.
@@ -86,9 +106,11 @@ client.on('interactionCreate', (interaction) => {
 });
 
 client.on('modalSubmit', async (modal) => {
-    if (modal.customId === 'suportmodalID') {
+    if (modal.customId === 'suportmodalID' && 'suporttekstID2' && 'suporttekstID3') {
         const firstResponse = modal.getTextInputValue('suporttekstID')
-        modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse))
+        const secondResponse = modal.getTextInputValue('suporttekstID2')
+        const thirdResponse = modal.getTextInputValue('suporttekstID3')
+        modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', firstResponse + secondResponse + thirdResponse))
     }
 });
 
@@ -131,8 +153,6 @@ fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
 /////////Event///////////////////////////////////////////////////////////////////////////////////////////////////
 //Sconst jointocreate1 = require("./jointocreate.js");
 //jointocreate1(client);
-//const start = require("./events/start");
-//start(client);
 const velkommen = require("./events/velkommen.js");
 velkommen(client);
 const botstat = require("./events/status.js");
@@ -145,21 +165,18 @@ const role = require("./events/role-claim.js");
 role(client)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-client.on('messageCreate', async (message) => {
-
-    if (!message.author.bot) {
-        if (message.content.includes('support' || 'suport')) {
-            message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
-        }
-    }
-})
-
 client.on('messageCreate', async message => {
     let messageArray = message.content.split(" ");
     let args = messageArray.slice(1);                                   // Tager args
     let cmd = messageArray[0];                                          // tager det første ord som er lig med kommandoen
     let prefix = botconfig.prefix;                                      // Tager prefixet fra bot config
     let commandfile = client.commands.get(cmd.slice(prefix.length));    // Bruger kommando fra ekstern mappe
-    if (commandfile) commandfile.run(client, message, args);             // Hvis det er en kommando fra ekstern mappe skal den bruges alligevel
+    if (commandfile) commandfile.run(client, message, args);            // Hvis det er en kommando fra ekstern mappe skal den bruges alligevel
+
+    if (!message.author.bot) {
+        if (message.content.includes('support' || 'suport')) {
+            message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
+        }
+    }
 })
 client.login(token.token)

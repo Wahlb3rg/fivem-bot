@@ -1,5 +1,5 @@
 const config = require("../botconfig.json")
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Client } = require('discord.js');
 module.exports = function (client) {
 
     console.log('Velkommen')
@@ -31,5 +31,11 @@ module.exports = function (client) {
         member.roles.add((client.guilds.cache.get(config.guildId)).roles.cache.get(config.autoRolleID)); // Det her er den rolle man får når man joiner
 
         console.log(`${member} Joinede serveren`)
+    })
+
+    client.on('guildMemberRemove', async member =>{
+        const left = client.channels.cache.get(config.leavKanalID);
+        if (!left) return console.log('Leav kanalen kan ikke findes');
+        left.send({ content: `${member} har forladt serveren` });
     })
 }
