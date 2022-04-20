@@ -6,6 +6,7 @@ const { clientId, guildId } = require('./botconfig.json');
 const { token } = require('./token.json');
 
 const commands = [
+	new SlashCommandBuilder().setName('ping').setDescription('Hvis du gerne vil blivet tagget på discorden'),//Den her er til ping rollen
 	new SlashCommandBuilder().setName('support').setDescription('Det her er en support command'),//Den her er til support modal ting ting
 ]
 	.map(command => command.toJSON());

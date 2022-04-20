@@ -15,8 +15,8 @@ module.exports.run = async (client, message, args) => {
     var besked = new MessageEmbed()
     .setTitle("")
     .setDescription(tingting)// beskeden
-    .setFooter({ text: `Lavet af wahlberg#6270`})
-    .setTimestamp()
+    //.setFooter({ text: `Lavet af wahlberg#6270`})
+    //.setTimestamp()
     .setColor(0xdd6544)
     
     message.channel.send({ embeds: [besked] })
