@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
  //           .setFooter('@2021 Québec City RolePlay')
  //           message.channel.send(statusEmbed).then(msg => msg.delete(300000));
     
- fivem.getServerInfo(`${ip}:${ipport}`).then(server => {//149.56.107.241:30120
+ fivem.getServerInfo(`${ip}:${ipport}`).then(server => {
     let result  = [];
     let index = 1;
     for (let player of server.players) {

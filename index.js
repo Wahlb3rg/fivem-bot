@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, Formatters, MessageActionRow, MessageSelectMenu, Constants } = require('discord.js');
+const { Client, Intents, Collection, Formatters, MessageActionRow, MessageSelectMenu } = require('discord.js');
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
 
 const botconfig = require('./botconfig.json'); // tager bot config 
@@ -55,8 +55,6 @@ client.on('interactionCreate', async interaction => {
         await interaction.reply({ content: 'Der var en fejl under udførelsen af denne kommando!\nHvis denne fejl ikke forsvinder så kontakt wahlberg', ephemeral: true });
     }
 });
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -20,8 +20,8 @@ module.exports.run = async (bot, message, args) => {
     const warnEmbed = new MessageEmbed()
         .setDescription("Personens `Warning(s)` er blevet fjernet ")
         .setColor(0x00ff00)
-        .addField("Fjernet af ", `${message.author} - Hash: ${message.author.tag} - ID: ${message.author.id}`)
-        .addField("User", `${wUser} - Hash: ${wUser.user.tag} - ID: ${wUser.id}`)
+        .addField("Fjernet af ", "`${message.author} - Hash: ${message.author.tag} - ID: ${message.author.id}`")
+        .addField("User", "`${wUser} - Hash: ${wUser.user.tag} - ID: ${wUser.id}`")
         //.addField("Removed In", `${message.channel} - ID: ${message.channel.id}`)
         .addField("Det nye antal af advarlser er", warns[wUser.id].warns);
 
