@@ -121,5 +121,10 @@ client.on('messageCreate', async message => {
             message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
         }
     }
+    //console.log(message.channelId);
+    if (message.channelId == 842817564290842686) {
+        message.delete();
+    }
+
 })
 client.login(token.token)
