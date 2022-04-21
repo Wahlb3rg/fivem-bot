@@ -2,7 +2,7 @@ const { Client, Intents, Collection, Formatters, MessageActionRow, MessageSelect
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
 
 const botconfig = require('./botconfig.json'); // tager bot config 
-const token = require('./token.json'); // tager bot config 
+const { token } = require('./token.json'); // tager bot config 
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -75,7 +75,7 @@ fs.readdir("./normcommands/", (err, files) => { // læser directory omkring comm
     });
 });
 
-fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
+/*fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
     let jsfile = files.filter(f => f.split(".").pop() === "js")
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
@@ -90,7 +90,7 @@ fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
         client.commands.set(props.help.name2, props);
         client.commands.set(props.help.name3, props); //tillader brug af kommandoer fra ekstern mappe
     });
-});
+});*/
 
 /////////Event///////////////////////////////////////////////////////////////////////////////////////////////////
 //Sconst jointocreate1 = require("./jointocreate.js");
@@ -121,10 +121,15 @@ client.on('messageCreate', async message => {
             message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
         }
     }
-    //console.log(message.channelId);
+
+    //sletter alle beskder i ping kanalen 
     if (message.channelId == 842817564290842686) {
-        message.delete();
+        if (!message.content.includes('ping')) {
+            if (!message.author.bot) {
+                message.delete();
+            }
+        }
     }
 
 })
-client.login(token.token)
+client.login(token)

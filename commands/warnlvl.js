@@ -1,10 +1,24 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const fs = require("fs");
+const botconfig = require("../botconfig.json");
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('warnlvl')
-        .setDescription('Vis antalet af advarsler du eller en bruger har fået'),
+        .setDescription('Viser hvor mange advarsler en bruger har fået')
+        .addUserOption(option =>
+            option.setName('target')
+                .setDescription('Hvem vil du tjekke')
+                .setRequired(true)),
     async execute(interaction) {
-        await interaction.reply({ content: 'https://tenor.com/view/among-us-dance-dance-among-us-purple-sus-gif-18888988', ephemeral: true });
+
+        let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
+        let wUser = interaction.options.getMember('target');
+              
+        if (!warns[wUser.id] || warns[wUser.id].warns === 0) {
+            await interaction.reply({ content: `Denner person har ingen advarlser\nKeep up the good behavior`, ephemeral: false });
+        } else {
+            await interaction.reply({ content: `<@${wUser.id}> har ${warns[wUser.id].warns} advarlser`, ephemeral: true });
+        }
     },
 };

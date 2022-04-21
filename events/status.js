@@ -1,22 +1,28 @@
-const botconfig = require("../botconfig.json");
+const config = require("../botconfig.json");
 const { MessageEmbed } = require('discord.js');
 const fivereborn = require('fivereborn-query'); // tager reborn query (bruges til at sætte bot activity)
 module.exports = function (client) {
 
+    client.on('ready', async () => {
+
+        function activity() { // laver funktionen activity
+            setTimeout(() => { // laver et loop
+                let myGuild = client.guilds.cache.get(config.guildId);
+                let memberCount = myGuild.memberCount;
+                client.user.setPresence({ activities: [{ name: `Member • ${memberCount}`, type: 'WATCHING' }] });
+                activity();
+            }, 10000);
+        }
+        activity();
+    });
+
     function activity() { // laver funktionen activity
         setTimeout(() => { // laver et loop
-            fivereborn.query(botconfig.ip, botconfig.ipport, (err, data) => { // starter fivereborn event, IP:PORT
+            fivereborn.query(config.ip, config.ipport, (err, data) => { // starter fivereborn event, IP:PORT
                 if (err) { // logger hvis der er fejl
                     console.log(err);
                     console.log(data); // logger fejlen
                 } else {//  ellers skal den sætte activity
-                    
-                    
-                    /*let myGuild = client.guilds.get(clientconfig.serverID);
-                    let memberCount = myGuild.memberCount;
-                    let memberCountChannel = myGuild.channels.get(clientconfig.memberchannelID);
-                    memberCountChannel.setName("Member•" + memberCount + "•User")*/
-
 
                     if (data.clients <= 5) {
                         client.user.setPresence({ activities: [{ name: `Få folk i byen`, type: 'WATCHING' }] });

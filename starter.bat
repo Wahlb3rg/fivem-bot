@@ -1,7 +1,7 @@
 @echo off
-echo Starting..
+echo Starting...
 :main
 node .
-echo Restarter bot om 5 sek
+echo Restarter...
 timeout /t 5 
 goto main

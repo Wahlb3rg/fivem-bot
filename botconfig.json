@@ -1,15 +1,15 @@
 {
     "prefix": "!",
-    "log":"842471936952631336",
+    "log": "842471936952631336",
     "clientId": "869343710796738640",
 	"guildId": "825000372710932490",
     
-    "publicIp":"cfx.re/join/ergdpa",
+    "publicIp": "cfx.re/join/ergdpa",
     "ip": "104.128.58.187",
     "ipport": "30120",
 
     "autoRolleID": "826109718173974590",
-    "pingroleID":"842817228248449074",
+    "pingroleID": "842817228248449074",
     "velkommenKanalID": "839048012722470923",
-    "leavKanalID":"966055746171195422"
+    "leavKanalID": "966055746171195422"
 }
