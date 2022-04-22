@@ -19,6 +19,16 @@ module.exports = {
 
     async execute(interaction) {
 
+        const permissions = [
+            {
+                id: '826111970994028584',
+                type: 'ROLE',
+                permission: false,
+            },
+        ];
+        
+        await command.permissions.add({ permissions });
+
         let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
         let wUser = interaction.options.getMember('target');
         let reason = interaction.options.getString('input');
