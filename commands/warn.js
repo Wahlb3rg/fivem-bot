@@ -26,7 +26,6 @@ module.exports = {
                 permission: false,
             },
         ];
-        
         await command.permissions.add({ permissions });
 
         let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));

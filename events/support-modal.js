@@ -1,5 +1,5 @@
 const botconfig = require("../botconfig.json");
-const { MessageEmbed } = require('discord.js');
+const { Formatters, MessageEmbed } = require('discord.js');
 module.exports = function (client) {
 
     const discordModals = require('discord-modals')
@@ -57,6 +57,7 @@ module.exports = function (client) {
             const secondResponse = modal.getTextInputValue('suporttekstID2')
             const thirdResponse = modal.getTextInputValue('suporttekstID3')
             modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', `${firstResponse}\n${secondResponse}\n${thirdResponse}`))
+            modal.channel.send(`${firstResponse}\n${secondResponse}\n${thirdResponse}`)
         }
     });
 
