@@ -1,26 +1,30 @@
 let hastebin = require('hastebin');
+const { parentOpened, parentTransactions, parentJeux, parentAutres, roleSupport, logsTicket } = require('../../botconfig.json');
+const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
   async execute(interaction, client) {
+
     if (!interaction.isButton()) return;
     if (interaction.customId == "open-ticket") {
       if (client.guilds.cache.get(interaction.guildId).channels.cache.find(c => c.topic == interaction.user.id)) {
         return interaction.reply({
-          content: 'Vous avez déjà créé un ticket !',
+          content: 'Du har allerede oprettet en ticket!',
           ephemeral: true
         });
       };
 
+      //Det her skal lige laves om så den laver et tal og ikke deres navn
       interaction.guild.channels.create(`ticket-${interaction.user.username}`, {
-        parent: client.config.parentOpened,
+        parent: parentOpened,
         topic: interaction.user.id,
         permissionOverwrites: [{
           id: interaction.user.id,
           allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
         },
         {
-          id: client.config.roleSupport,
+          id: roleSupport,
           allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
         },
         {
@@ -31,22 +35,22 @@ module.exports = {
         type: 'text',
       }).then(async c => {
         interaction.reply({
-          content: `Ticket créé! <#${c.id}>`,
+          content: `Din ticket er blevet oprette og du kan finde den her - <#${c.id}>`,
           ephemeral: true
         });
 
-        const embed = new client.discord.MessageEmbed()
+        const embed = new MessageEmbed()
           .setColor('6d6ee8')
           .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-          .setDescription('Séléctionnez la catégorie de votre ticket')
+          .setDescription('Vælg den kategori der passer bedst til dit problem/spørgsmål')
           .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
           .setTimestamp();
 
-        const row = new client.discord.MessageActionRow()
+        const row = new MessageActionRow()
           .addComponents(
-            new client.discord.MessageSelectMenu()
+            new MessageSelectMenu()
               .setCustomId('category')
-              .setPlaceholder('Séléctionnez la catégorie du ticket')
+              .setPlaceholder('Vælg kategori')
               .addOptions([{
                 label: 'Transaction',
                 value: 'transaction',
@@ -80,24 +84,24 @@ module.exports = {
           if (i.user.id === interaction.user.id) {
             if (msg.deletable) {
               msg.delete().then(async () => {
-                const embed = new client.discord.MessageEmbed()
+                const embed = new MessageEmbed()
                   .setColor('6d6ee8')
                   .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-                  .setDescription(`<@!${interaction.user.id}> A créé un ticket ${i.values[0]}`)
+                  .setDescription(`<@!${interaction.user.id}> Lavet en ticket  ${i.values[0]}`)
                   .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
                   .setTimestamp();
 
-                const row = new client.discord.MessageActionRow()
+                const row = new MessageActionRow()
                   .addComponents(
-                    new client.discord.MessageButton()
+                    new MessageButton()
                       .setCustomId('close-ticket')
-                      .setLabel('Fermer le ticket')
+                      .setLabel('Luk ticket')
                       .setEmoji('899745362137477181')
                       .setStyle('DANGER'),
                   );
 
                 const opened = await c.send({
-                  content: `<@&${client.config.roleSupport}>`,
+                  content: `<@&${roleSupport}>`,
                   embeds: [embed],
                   components: [row]
                 });
@@ -109,17 +113,17 @@ module.exports = {
             };
             if (i.values[0] == 'transaction') {
               c.edit({
-                parent: client.config.parentTransactions
+                parent: parentTransactions
               });
             };
             if (i.values[0] == 'jeux') {
               c.edit({
-                parent: client.config.parentJeux
+                parent: parentJeux
               });
             };
             if (i.values[0] == 'autre') {
               c.edit({
-                parent: client.config.parentAutres
+                parent: parentAutres
               });
             };
           };
@@ -127,7 +131,7 @@ module.exports = {
 
         collector.on('end', collected => {
           if (collected.size < 1) {
-            c.send(`Aucune catégorie séléctionnée. Fermeture du ticket...`).then(() => {
+            c.send(`Ingen kategori valgt. Din ticket bliver lukket...`).then(() => {
               setTimeout(() => {
                 if (c.deletable) {
                   c.delete();
@@ -143,20 +147,20 @@ module.exports = {
       const guild = client.guilds.cache.get(interaction.guildId);
       const chan = guild.channels.cache.get(interaction.channelId);
 
-      const row = new client.discord.MessageActionRow()
+      const row = new MessageActionRow()
         .addComponents(
-          new client.discord.MessageButton()
+          new MessageButton()
             .setCustomId('confirm-close')
-            .setLabel('Fermer le ticket')
+            .setLabel('Luk ticket')
             .setStyle('DANGER'),
-          new client.discord.MessageButton()
+          new MessageButton()
             .setCustomId('no')
-            .setLabel('Annuler la fermeture')
+            .setLabel('Behold ticket åben')
             .setStyle('SECONDARY'),
         );
 
       const verif = await interaction.reply({
-        content: 'Êtes vous sûr de vouloir fermer le ticket ?',
+        content: 'Er du sikker på, at du vil lukke din ticket?',
         components: [row]
       });
 
@@ -168,11 +172,12 @@ module.exports = {
       collector.on('collect', i => {
         if (i.customId == 'confirm-close') {
           interaction.editReply({
-            content: `Ticket fermé par <@!${interaction.user.id}>`,
+            content: `Ticket lukket af <@!${interaction.user.id}>`,
             components: []
           });
 
           chan.edit({
+            //Her skal jeg igen få tallet som der er brugt noget med at tager navnet og fjerne ja 
             name: `closed-${chan.name}`,
             permissionOverwrites: [
               {
@@ -180,7 +185,7 @@ module.exports = {
                 deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
               },
               {
-                id: client.config.roleSupport,
+                id: roleSupport,
                 allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
               },
               {
@@ -190,18 +195,18 @@ module.exports = {
             ],
           })
             .then(async () => {
-              const embed = new client.discord.MessageEmbed()
+              const embed = new MessageEmbed()
                 .setColor('6d6ee8')
                 .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-                .setDescription('```Contrôle des tickets```')
+                .setDescription('```Billetkontrol | ved ikke hvad det her er```')
                 .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
                 .setTimestamp();
 
-              const row = new client.discord.MessageActionRow()
+              const row = new MessageActionRow()
                 .addComponents(
-                  new client.discord.MessageButton()
+                  new MessageButton()
                     .setCustomId('delete-ticket')
-                    .setLabel('Supprimer le ticket')
+                    .setLabel('Slet ticket')
                     .setEmoji('🗑️')
                     .setStyle('DANGER'),
                 );
@@ -216,7 +221,7 @@ module.exports = {
         };
         if (i.customId == 'no') {
           interaction.editReply({
-            content: 'Fermeture du ticket annulé !',
+            content: 'Din ticket blev ikke lukket!',
             components: []
           });
           collector.stop();
@@ -226,7 +231,7 @@ module.exports = {
       collector.on('end', (i) => {
         if (i.size < 1) {
           interaction.editReply({
-            content: 'Fermeture du ticket annulé !',
+            content: 'Din ticket blev ikke lukket!',
             components: []
           });
         };
@@ -238,12 +243,12 @@ module.exports = {
       const chan = guild.channels.cache.get(interaction.channelId);
 
       interaction.reply({
-        content: 'Sauvegarde des messages...'
+        content: 'Gemmer beskeder...'
       });
 
       chan.messages.fetch().then(async (messages) => {
         let a = messages.filter(m => m.author.bot !== true).map(m =>
-          `${new Date(m.createdTimestamp).toLocaleString('fr-FR')} - ${m.author.username}#${m.author.discriminator}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`
+          `${new Date(m.createdTimestamp).toLocaleString()} - ${m.author.username}#${m.author.discriminator}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`
         ).reverse().join('\n');
         if (a.length < 1) a = "Nothing"
         hastebin.createPaste(a, {
@@ -251,25 +256,25 @@ module.exports = {
           server: 'https://hastebin.com/'
         }, {})
           .then(function (urlToPaste) {
-            const embed = new client.discord.MessageEmbed()
+            const embed = new MessageEmbed()
               .setAuthor('Logs Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-              .setDescription(`📰 Logs du ticket \`${chan.id}\` créé par <@!${chan.topic}> et supprimé par <@!${interaction.user.id}>\n\nLogs: [**Cliquez ici pour voir les logs**](${urlToPaste})`)
+              .setDescription(`📰 Ticket log \`${chan.id}\` oprettet af <@!${chan.topic}> og slettet af <@!${interaction.user.id}>\n\nLog: [**Klik her for at se logfiler**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
-            const embed2 = new client.discord.MessageEmbed()
+            const embed2 = new MessageEmbed()
               .setAuthor('Logs Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-              .setDescription(`📰 Logs de votre ticket \`${chan.id}\`: [**Cliquez ici pour voir les logs**](${urlToPaste})`)
+              .setDescription(`📰 Logfiler over din ticket \`${chan.id}\`: [**Klik her for at se logfiler**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
-            client.channels.cache.get(client.config.logsTicket).send({
+            client.channels.cache.get(logsTicket).send({
               embeds: [embed]
             });
             client.users.cache.get(chan.topic).send({
               embeds: [embed2]
             }).catch(() => { console.log('I can\'t dm him :(') });
-            chan.send('Suppression du channel...');
+            chan.send('Sletter kanal...');
 
             setTimeout(() => {
               chan.delete();

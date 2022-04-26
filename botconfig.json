@@ -11,5 +11,14 @@
     "autoRolleID": "826109718173974590",
     "pingroleID": "842817228248449074",
     "velkommenKanalID": "839048012722470923",
-    "leavKanalID": "966055746171195422"
+    "leavKanalID": "966055746171195422",
+
+    "parentOpened": "929830185598079007",
+    "parentTransactions": "968461792714035271",
+    "parentJeux": "968461721608015906",
+    "parentAutres": "968461678461222962",
+    "roleSupport": "826111970994028584",
+    "logsTicket": "929832695436029972",
+    "ticketChannel": "968449904970203136",
+    "footerText": "Ja jeg ved ikke hvad jeg laver tihi"
 }

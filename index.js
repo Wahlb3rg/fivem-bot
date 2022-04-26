@@ -58,6 +58,15 @@ client.on('interactionCreate', async interaction => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const eventFiles = fs.readdirSync('./ticket/events').filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+  const event = require(`./ticket/events/${file}`);
+  client.on(event.name, (...args) => event.execute(...args, client));
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 fs.readdir("./normcommands/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
     let jsfile = files.filter(f => f.split(".").pop() === "js")

@@ -1,21 +1,21 @@
+const { ticketChannel, footerText } = require('../../botconfig.json');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 module.exports = {
   name: 'ready',
   async execute(client) {
-    console.log('Ticket Bot ready!')
-    console.log('Thank you very much for using Ticket Bot! Developed with the ❤️ by Sayrix');
-    const oniChan = client.channels.cache.get(client.config.ticketChannel)
+    const oniChan = client.channels.cache.get(ticketChannel)
 
     function sendTicketMSG() {
-      const embed = new client.discord.MessageEmbed()
+      const embed = new MessageEmbed()
         .setColor('6d6ee8')
         .setAuthor('Ticket', client.user.avatarURL())
-        .setDescription('Cliquez sur le bouton ci-dessous pour ouvrir un ticket')
-        .setFooter(client.config.footerText, client.user.avatarURL())
-      const row = new client.discord.MessageActionRow()
+        .setDescription('Klik på knappen nedenfor for at åbne en ticket')
+        .setFooter(footerText, client.user.avatarURL())
+      const row = new MessageActionRow()
         .addComponents(
-          new client.discord.MessageButton()
+          new MessageButton()
             .setCustomId('open-ticket')
-            .setLabel('Ouvrir un ticket')
+            .setLabel('Åben ticket')
             .setEmoji('✉️')
             .setStyle('PRIMARY'),
         );
