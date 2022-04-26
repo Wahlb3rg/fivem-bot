@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
             fs.writeFile("normcommands/stickey.json", JSON.stringify(besked, null, 4), (err) => {
                 if (err) console.log(err)
             });
-            
+
         } catch (error) {
             console.error(error);
         }

@@ -33,7 +33,7 @@ module.exports = function (client) {
         console.log(`${member} Joinede serveren`)
     })
 
-    client.on('guildMemberRemove', async member =>{
+    client.on('guildMemberRemove', async member => {
         const left = client.channels.cache.get(config.leavKanalID);
         if (!left) return console.log('Leav kanalen kan ikke findes');
         left.send({ content: `${member} har forladt serveren` });
