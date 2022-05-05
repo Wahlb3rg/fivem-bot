@@ -58,10 +58,10 @@ client.on('interactionCreate', async interaction => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const eventFiles = fs.readdirSync('./ticket/events').filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync('./ticket').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-  const event = require(`./ticket/events/${file}`);
+  const event = require(`./ticket/${file}`);
   client.on(event.name, (...args) => event.execute(...args, client));
 };
 

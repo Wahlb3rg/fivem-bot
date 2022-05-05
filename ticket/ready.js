@@ -1,4 +1,4 @@
-const { ticketChannel, footerText } = require('../../botconfig.json');
+const { ticketChannel, footerText } = require('../botconfig.json');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 module.exports = {
   name: 'ready',
@@ -8,8 +8,8 @@ module.exports = {
     function sendTicketMSG() {
       const embed = new MessageEmbed()
         .setColor('6d6ee8')
-        .setAuthor('Ticket', client.user.avatarURL())
-        .setDescription('Klik på knappen nedenfor for at åbne en ticket')
+        .setAuthor({ name: 'Ticket', iconURL: client.user.avatarURL() })
+        .setDescription('Har du brug for at komme i kontakt med vores staff, dev, eller ledelses team skal du lave en ticket.\n\nNår du har lavet en ticket så kommer der en dropdown menu hvor du skal vælge den kategori der passer bedst til dit spørgsmål/problem\nHvis du ikke vælger en kategori så vil din ticket blive lukket automatisk.\nVælger du en forkert kategori så kan og vil din ticket blive lukket uden advarsel.\n\nDu kan lave en ticket ved at trykke på knappen nedenfor.')
         .setFooter(footerText, client.user.avatarURL())
       const row = new MessageActionRow()
         .addComponents(

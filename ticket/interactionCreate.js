@@ -1,5 +1,5 @@
 let hastebin = require('hastebin');
-const { parentOpened, parentTransactions, parentJeux, parentAutres, roleSupport, logsTicket } = require('../../botconfig.json');
+const { parentOpened, parentTransactions, parentJeux, parentAutres, roleSupport, logsTicket } = require('../botconfig.json');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 
 module.exports = {
@@ -41,7 +41,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
           .setColor('6d6ee8')
-          .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
+          .setAuthor({ name: 'Ticket', iconURL: client.user.avatarURL() })
           .setDescription('Vælg den kategori der passer bedst til dit problem/spørgsmål')
           .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
           .setTimestamp();
