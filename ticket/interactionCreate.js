@@ -131,15 +131,19 @@ module.exports = {
 
         collector.on('end', collected => {
           if (collected.size < 1) {
-            c.send(`Ingen kategori valgt. Din ticket bliver lukket...`).then(() => {
-              setTimeout(() => {
-                if (c.deletable) {
-                  c.delete();
-                };
-              }, 5000);
+            msg.delete().then(async () => {
+              c.send(`Du valgte ikke en kategori i tide. Din ticket bliver derfor markeret som åben men ventetiden kan være længere.\nSlet denne ticket og lav den med den rigtige kategori hvis du gerne vil komme i kontakt med de rigtige.`)
+                .then(() => {
+                  setTimeout(() => {
+                    if (c.deletable) {
+                      c.delete();
+                    };
+                  }, 5000);
+                });
             });
           };
         });
+
       });
     };
 
