@@ -1,4 +1,6 @@
 let hastebin = require('hastebin');
+let fs = require('fs');
+const { ticketnr } = require('./numb.json'); 
 const { parentOpened, parentTransactions, parentJeux, parentAutres, roleSupport, logsTicket } = require('../botconfig.json');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 
@@ -15,8 +17,13 @@ module.exports = {
         });
       };
 
+      let tic = JSON.parse(fs.readFileSync("ticket/numb.json", "utf8"));
+      console.log(tic[ticket]);
+      fs.writeFile("ticket/numb.json", JSON.stringify(tic, null, 4), (err) => {
+        if (err) console.log(err)
+      });
       //Det her skal lige laves om så den laver et tal og ikke deres navn
-      interaction.guild.channels.create(`ticket-${interaction.user.username}`, {
+      interaction.guild.channels.create(`ticket-${ticketnr}`, {
         parent: parentOpened,
         topic: interaction.user.id,
         permissionOverwrites: [{
