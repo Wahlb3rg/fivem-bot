@@ -1,6 +1,6 @@
 let hastebin = require('hastebin');
 let fs = require('fs');
-const { ticketnr } = require('./numb.json'); 
+const { ticketnr } = require('./numb.json');
 const { parentClosed, parentOpened, parentdevsup, parentsub, parentwhitsup, roleSupport, logsTicket, footerText } = require('../botconfig.json');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 
@@ -17,13 +17,20 @@ module.exports = {
         });
       };
 
-      //let tic = JSON.parse(fs.readFileSync("ticket/numb.json", "utf8"));
-      //console.log(tic[ticket]);
-      //fs.writeFile("ticket/numb.json", JSON.stringify(tic, null, 4), (err) => {
-      //  if (err) console.log(err)
-      //});
+      let tic = JSON.parse(fs.readFileSync("ticket/numb.json", "utf8"));
+      let nimsenumse = interaction.guildId;
+      if (!tic[nimsenumse]) {
+        tic[nimsenumse] = {
+          ticket: 0
+        };
+      }
+
+      console.log(tic[nimsenumse].nr);
+      fs.writeFile("ticket/numb.json", JSON.stringify(tic, null, 4), (err) => {
+        if (err) console.log(err)
+      });
       //Det her skal lige laves om så den laver et tal og ikke deres navn
-      interaction.guild.channels.create(`ticket-$ {ticketnr}`, {
+      interaction.guild.channels.create(`ticket-${tic[nimsenumse].nr}`, {
         parent: parentOpened,
         topic: interaction.user.id,
         permissionOverwrites: [{
@@ -73,11 +80,11 @@ module.exports = {
                 value: 'whitsup',
                 emoji: '📝',
               },
-              /*{
-                label: '',
-                value: '',
-                emoji: '',
-              },*/
+                /*{
+                  label: '',
+                  value: '',
+                  emoji: '',
+                },*/
               ]),
           );
 
@@ -99,7 +106,7 @@ module.exports = {
                 const embed = new MessageEmbed()
                   .setColor('6d6ee8')
                   .setAuthor({ name: 'Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
-                  .setDescription(`<@!${interaction.user.id}> Lavet en ticket  ${i.values[0]}`)
+                  .setDescription(`<@!${interaction.user.id}> Lavet en ticket\nForklar hvad dit problem er og så vil en fra vores staff team svare så hurtigt som muligt.`/*${i.values[0]}`*/)
                   .setFooter({ text: footerText })
                   .setTimestamp();
 
@@ -176,7 +183,7 @@ module.exports = {
         );
 
       const verif = await interaction.reply({
-        content: 'Er du sikker på, at du vil lukke din ticket?',
+        content: `<@${interaction.user.id}> er du sikker på, at du vil lukke din ticket?`,
         components: [row]
       });
 
@@ -192,11 +199,13 @@ module.exports = {
             components: []
           });
 
+        var str = chan.name;
+        var matches = str.match(/\d+/)[0]
           chan.edit({
             //Her skal jeg igen få tallet som der er brugt noget med at tager navnet og fjerne ja 
-            name: `closed-${chan.name}`,
+            name: `lukket-${matches}`,
             parent: parentClosed,
-            topic: "Lukket" + interaction.user.id + "Lukket",
+            topic: "Lukket " + interaction.user.id + " Lukket",
             permissionOverwrites: [
               {
                 id: client.users.cache.get(chan.topic),
@@ -216,7 +225,7 @@ module.exports = {
               const embed = new MessageEmbed()
                 .setColor('6d6ee8')
                 .setAuthor({ name: 'Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
-                .setDescription('```Billetkontrol | ved ikke hvad det her er```')
+                .setDescription('```Ticket er lukket, denne ticket kan genåbnes igen```')
                 .setFooter({ text: footerText })
                 .setTimestamp();
 
