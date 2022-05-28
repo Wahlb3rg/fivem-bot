@@ -1,7 +1,7 @@
 let hastebin = require('hastebin');
 let fs = require('fs');
 const { ticketnr } = require('./numb.json'); 
-const { parentOpened, parentTransactions, parentJeux, parentAutres, roleSupport, logsTicket } = require('../botconfig.json');
+const { parentClosed, parentOpened, parentdevsup, parentsub, parentwhitsup, roleSupport, logsTicket, footerText } = require('../botconfig.json');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 
 module.exports = {
@@ -17,13 +17,13 @@ module.exports = {
         });
       };
 
-      let tic = JSON.parse(fs.readFileSync("ticket/numb.json", "utf8"));
-      console.log(tic[ticket]);
-      fs.writeFile("ticket/numb.json", JSON.stringify(tic, null, 4), (err) => {
-        if (err) console.log(err)
-      });
+      //let tic = JSON.parse(fs.readFileSync("ticket/numb.json", "utf8"));
+      //console.log(tic[ticket]);
+      //fs.writeFile("ticket/numb.json", JSON.stringify(tic, null, 4), (err) => {
+      //  if (err) console.log(err)
+      //});
       //Det her skal lige laves om så den laver et tal og ikke deres navn
-      interaction.guild.channels.create(`ticket-${ticketnr}`, {
+      interaction.guild.channels.create(`ticket-$ {ticketnr}`, {
         parent: parentOpened,
         topic: interaction.user.id,
         permissionOverwrites: [{
@@ -50,29 +50,34 @@ module.exports = {
           .setColor('6d6ee8')
           .setAuthor({ name: 'Ticket', iconURL: client.user.avatarURL() })
           .setDescription('Vælg den kategori der passer bedst til dit problem/spørgsmål')
-          .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
+          .setFooter({ text: footerText })
           .setTimestamp();
 
         const row = new MessageActionRow()
           .addComponents(
             new MessageSelectMenu()
               .setCustomId('category')
-              .setPlaceholder('Vælg kategori')
+              .setPlaceholder('Vælg en kategori')
               .addOptions([{
-                label: 'Transaction',
-                value: 'transaction',
-                emoji: '🪙',
-              },
-              {
-                label: 'Jeux',
-                value: 'jeux',
+                label: 'Support',
+                value: 'sub',
                 emoji: '🎮',
               },
               {
-                label: 'Autres',
-                value: 'autre',
-                emoji: '📔',
+                label: 'Developer Support',
+                value: 'devsup',
+                emoji: '979881537489223700',
               },
+              {
+                label: 'Whitelist Support',
+                value: 'whitsup',
+                emoji: '📝',
+              },
+              /*{
+                label: '',
+                value: '',
+                emoji: '',
+              },*/
               ]),
           );
 
@@ -93,9 +98,9 @@ module.exports = {
               msg.delete().then(async () => {
                 const embed = new MessageEmbed()
                   .setColor('6d6ee8')
-                  .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
+                  .setAuthor({ name: 'Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
                   .setDescription(`<@!${interaction.user.id}> Lavet en ticket  ${i.values[0]}`)
-                  .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
+                  .setFooter({ text: footerText })
                   .setTimestamp();
 
                 const row = new MessageActionRow()
@@ -118,19 +123,19 @@ module.exports = {
                 });
               });
             };
-            if (i.values[0] == 'transaction') {
+            if (i.values[0] == 'devsup') {
               c.edit({
-                parent: parentTransactions
+                parent: parentdevsup
               });
             };
-            if (i.values[0] == 'jeux') {
+            if (i.values[0] == 'sub') {
               c.edit({
-                parent: parentJeux
+                parent: parentsub
               });
             };
-            if (i.values[0] == 'autre') {
+            if (i.values[0] == 'whitsup') {
               c.edit({
-                parent: parentAutres
+                parent: parentwhitsup
               });
             };
           };
@@ -190,6 +195,8 @@ module.exports = {
           chan.edit({
             //Her skal jeg igen få tallet som der er brugt noget med at tager navnet og fjerne ja 
             name: `closed-${chan.name}`,
+            parent: parentClosed,
+            topic: "Lukket" + interaction.user.id + "Lukket",
             permissionOverwrites: [
               {
                 id: client.users.cache.get(chan.topic),
@@ -208,9 +215,9 @@ module.exports = {
             .then(async () => {
               const embed = new MessageEmbed()
                 .setColor('6d6ee8')
-                .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
+                .setAuthor({ name: 'Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
                 .setDescription('```Billetkontrol | ved ikke hvad det her er```')
-                .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
+                .setFooter({ text: footerText })
                 .setTimestamp();
 
               const row = new MessageActionRow()
@@ -268,13 +275,13 @@ module.exports = {
         }, {})
           .then(function (urlToPaste) {
             const embed = new MessageEmbed()
-              .setAuthor('Logs Ticket', 'https://i.imgur.com/oO5ZSRK.png')
+              .setAuthor({ name: 'Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
               .setDescription(`📰 Ticket log \`${chan.id}\` oprettet af <@!${chan.topic}> og slettet af <@!${interaction.user.id}>\n\nLog: [**Klik her for at se logfiler**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
             const embed2 = new MessageEmbed()
-              .setAuthor('Logs Ticket', 'https://i.imgur.com/oO5ZSRK.png')
+              .setAuthor({ name: 'Logs Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
               .setDescription(`📰 Logfiler over din ticket \`${chan.id}\`: [**Klik her for at se logfiler**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
