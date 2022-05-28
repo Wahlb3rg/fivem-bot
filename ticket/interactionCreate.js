@@ -25,7 +25,7 @@ module.exports = {
         };
       }
 
-      console.log(tic[nimsenumse].nr);
+      tic[nimsenumse].nr++;
       fs.writeFile("ticket/numb.json", JSON.stringify(tic, null, 4), (err) => {
         if (err) console.log(err)
       });
