@@ -12,11 +12,11 @@ module.exports = function (client) {
         .addComponents([
             new TextInputComponent() // We create a Text Input Component
                 .setCustomId('suporttekstID')
-                .setLabel('Beskriv dit problem')
+                .setLabel('Dit ingame CPR nummer')
                 .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
-                .setMinLength(1)//25
-                .setMaxLength(500)
-                .setPlaceholder('Der var en bug og jeg har mistet mine penge')
+                .setMinLength(8)//25
+                .setMaxLength(8)
+                .setPlaceholder('CPR42069')
                 .setRequired(true) // If it's required or not
         ])
         .addComponents([
@@ -24,21 +24,12 @@ module.exports = function (client) {
                 .setCustomId('suporttekstID2')
                 .setLabel('Beskriv dit problem')
                 .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
-                .setMinLength(1)//25
+                .setMinLength(25)//25
                 .setMaxLength(500)
-                .setPlaceholder('Der var en bug og jeg har mistet mine penge')
+                .setPlaceholder('Der var en bug og jeg ligger død i en kælder. Hvad kan jeg gøre?')
                 .setRequired(true) // If it's required or not
         ])
-        .addComponents([
-            new TextInputComponent() // We create a Text Input Component
-                .setCustomId('suporttekstID3')
-                .setLabel('Beskriv dit problem')
-                .setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
-                .setMinLength(1)//25
-                .setMaxLength(500)
-                .setPlaceholder('Der var en bug og jeg har mistet mine penge')
-                .setRequired(true) // If it's required or not
-        ])
+
 
     client.on('interactionCreate', (interaction) => {
         // Let's say the interaction will be a Slash Command called 'support'.
@@ -55,9 +46,9 @@ module.exports = function (client) {
         if (modal.customId === 'suportmodalID' && 'suporttekstID2' && 'suporttekstID3') {
             const firstResponse = modal.getTextInputValue('suporttekstID')
             const secondResponse = modal.getTextInputValue('suporttekstID2')
-            const thirdResponse = modal.getTextInputValue('suporttekstID3')
-            modal.reply('Congrats! Powered by discord-modals.' + Formatters.codeBlock('markdown', `${firstResponse}\n${secondResponse}\n${thirdResponse}`))
-            modal.channel.send(`${firstResponse}\n${secondResponse}\n${thirdResponse}`)
+
+            modal.reply(`Denne command er WIP.${Formatters.codeBlock('markdown', `${firstResponse}\n${secondResponse}`)}`)
+            //modal.channel.send(`${firstResponse}\n${secondResponse}\n${thirdResponse}`)
         }
     });
 

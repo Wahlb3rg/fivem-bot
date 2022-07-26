@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const fivereborn = require('fivereborn-query'); // tager reborn query (bruges til at sætte bot activity)
 module.exports = function (client) {
 
-    client.on('ready', async () => {
+    /*client.on('ready', async () => {
 
         function activity() { // laver funktionen activity
             setTimeout(() => { // laver et loop
@@ -14,7 +14,7 @@ module.exports = function (client) {
             }, 10000);
         }
         activity();
-    });
+    });*/
 
     function activity() { // laver funktionen activity
         setTimeout(() => { // laver et loop

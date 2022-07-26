@@ -9,8 +9,8 @@ module.exports = {
       .setDescription('Personen der skal tilføje')
       .setRequired(true)),
   async execute(interaction, client) {
-
-    const chan = client.channels.fetch(interaction.channelId);
+    const guild = client.guilds.cache.get(interaction.guildId);
+    const chan = guild.channels.cache.get(interaction.channelId);
     const user = interaction.options.getUser('target');
 
     if (chan.name.includes('ticket')) {

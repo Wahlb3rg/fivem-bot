@@ -61,8 +61,8 @@ client.on('interactionCreate', async interaction => {
 const eventFiles = fs.readdirSync('./ticket').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-  const event = require(`./ticket/${file}`);
-  client.on(event.name, (...args) => event.execute(...args, client));
+    const event = require(`./ticket/${file}`);
+    client.on(event.name, (...args) => event.execute(...args, client));
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +137,13 @@ client.on('messageCreate', async message => {
             if (!message.author.bot) {
                 message.delete();
             }
+        }
+    }
+
+    //siger botten ikke bruger !commands mere men /
+    if (!message.author.bot) {
+        if (message.content.startsWith('!')) {
+            message.channel.send('Jeg bruger ikke ! commands mere men / så brug / i en chat så kan du se alle de commands jeg kan lave :)')
         }
     }
 

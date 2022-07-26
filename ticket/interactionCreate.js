@@ -199,8 +199,8 @@ module.exports = {
             components: []
           });
 
-        var str = chan.name;
-        var matches = str.match(/\d+/)[0]
+          var str = chan.name;
+          var matches = str.match(/\d+/)[0]
           chan.edit({
             //Her skal jeg igen få tallet som der er brugt noget med at tager navnet og fjerne ja 
             name: `lukket-${matches}`,
@@ -277,30 +277,36 @@ module.exports = {
         let a = messages.filter(m => m.author.bot !== true).map(m =>
           `${new Date(m.createdTimestamp).toLocaleString()} - ${m.author.username}#${m.author.discriminator}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`
         ).reverse().join('\n');
-        if (a.length < 1) a = "Nothing"
+        if (a.length < 1) a = "SYSTEM: Der blev ikke skrevet noget i denne ticket (╯°□°）╯︵ ┻━┻"
         hastebin.createPaste(a, {
           contentType: 'text/plain',
           server: 'https://hastebin.com/'
         }, {})
           .then(function (urlToPaste) {
+            var str = chan.topic;
+            var person = str.match(/\d+/)[0]
             const embed = new MessageEmbed()
               .setAuthor({ name: 'Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
-              .setDescription(`📰 Ticket log \`${chan.id}\` oprettet af <@!${chan.topic}> og slettet af <@!${interaction.user.id}>\n\nLog: [**Klik her for at se logfiler**](${urlToPaste})`)
+              .setDescription(`📰 Ticket log \`${chan.id}\` oprettet af <@!${person}> og slettet af <@!${interaction.user.id}>\n\nLog: [**Klik her for at se logfiler**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
             const embed2 = new MessageEmbed()
               .setAuthor({ name: 'Logs Ticket', iconURL: 'https://cdn.discordapp.com/emojis/979881537489223700.webp?size=96&quality=lossless' })
-              .setDescription(`📰 Logfiler over din ticket \`${chan.id}\`: [**Klik her for at se logfiler**](${urlToPaste})`)
+              .setDescription(`📰 Logfiler over din ticket \`${chan.id}\`: [**Klik her for at se loggen**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
             client.channels.cache.get(logsTicket).send({
               embeds: [embed]
             });
-            client.users.cache.get(chan.topic).send({
-              embeds: [embed2]
-            }).catch(() => { console.log('I can\'t dm him :(') });
+            try {
+              client.users.cache.get(person).send({
+                embeds: [embed2]
+              }).catch(() => { console.log('I can\'t dm him :(') });
+            } catch (error) {
+              console.log(error)
+            }
             chan.send('Sletter kanal...');
 
             setTimeout(() => {
