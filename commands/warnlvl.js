@@ -7,13 +7,13 @@ module.exports = {
         .setName('warnlvl')
         .setDescription('Viser hvor mange advarsler en bruger har fået')
         .addUserOption(option =>
-            option.setName('target')
+            option.setName('Person')
                 .setDescription('Hvem vil du tjekke')
                 .setRequired(true)),
     async execute(interaction) {
 
         let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
-        let wUser = interaction.options.getMember('target');
+        let wUser = interaction.options.getMember('Person');
               
         if (!warns[wUser.id] || warns[wUser.id].warns === 0) {
             await interaction.reply({ content: `Denner person har ingen advarlser\nKeep up the good behavior`, ephemeral: false });

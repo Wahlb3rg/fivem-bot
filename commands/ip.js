@@ -1,4 +1,4 @@
-const botconfig = require("../botconfig.json");
+const { footerText } = require("../botconfig.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed} = require("discord.js");
 
@@ -12,7 +12,7 @@ module.exports = {
         .setColor(0xFFFF00)
         .setTitle(`Ip til vores server!`)
         .setDescription(`Server:\`\`\`Connect ${botconfig.publicIp}\`\`\``)//Teamspeak:\`\`\`94.130.237.93\`\`\`
-        //.setFooter({ text: 'Lavet af wahlberg#6270' })
+        .setFooter({ text: footerText })
         //.setTimestamp()
 
 		await interaction.reply({ embeds: [Embed] });

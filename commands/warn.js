@@ -8,29 +8,21 @@ module.exports = {
         .setName('warn')
         .setDescription('Giv en advarsel til en bruger')
         .addUserOption(option =>
-            option.setName('target')
+            option.setName('Person')
                 .setDescription('Den bruger du vil warn')
                 .setRequired(true))
 
         .addStringOption(option =>
-            option.setName('input')
+            option.setName('Grundlag')
                 .setDescription('Grundnen for warn')
                 .setRequired(true)),
 
     async execute(interaction) {
 
-        const permissions = [
-            {
-                id: '826111970994028584',
-                type: 'ROLE',
-                permission: false,
-            },
-        ];
-        await command.permissions.add({ permissions });
 
         let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
-        let wUser = interaction.options.getMember('target');
-        let reason = interaction.options.getString('input');
+        let wUser = interaction.options.getMember('Person');
+        let reason = interaction.options.getString('Grundlag');
         if (!warns[wUser.id]) warns[wUser.id] = {
             warns: 0
         };
