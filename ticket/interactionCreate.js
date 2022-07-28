@@ -1,6 +1,5 @@
 let hastebin = require('hastebin');
 let fs = require('fs');
-const { ticketnr } = require('./numb.json');
 const { parentClosed, parentOpened, parentdevsup, parentsub, parentwhitsup, roleSupport, logsTicket, footerText } = require('../botconfig.json');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 

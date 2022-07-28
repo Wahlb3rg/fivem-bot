@@ -8,12 +8,12 @@ module.exports = {
         .setName('warn')
         .setDescription('Giv en advarsel til en bruger')
         .addUserOption(option =>
-            option.setName('Person')
+            option.setName('person')
                 .setDescription('Den bruger du vil warn')
                 .setRequired(true))
 
         .addStringOption(option =>
-            option.setName('Grundlag')
+            option.setName('grundlag')
                 .setDescription('Grundnen for warn')
                 .setRequired(true)),
 
@@ -21,8 +21,8 @@ module.exports = {
 
 
         let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
-        let wUser = interaction.options.getMember('Person');
-        let reason = interaction.options.getString('Grundlag');
+        let wUser = interaction.options.getMember('person');
+        let reason = interaction.options.getString('grundlag');
         if (!warns[wUser.id]) warns[wUser.id] = {
             warns: 0
         };

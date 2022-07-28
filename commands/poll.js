@@ -1,27 +1,43 @@
-const { footerText} = require("../botconfig.json");
+const { footerText } = require("../botconfig.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed} = require("discord.js");
+const { MessageEmbed, Message } = require("discord.js");
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('afstemning')
-		.setDescription('Laver en afstemning og sætter en bestem tid af hvor efter den afsluttes')
-        .addStringOption(option => option.setName('title').setDescription('Enter a string').setRequired(true))
-        .addStringOption(option => option.setName('question').setDescription('Hvad skal botten sskal der stemmes om?').setRequired(true)),
+    data: new SlashCommandBuilder()
+        .setName('afstemning')
+        .setDescription('Laver en afstemning og sætter en bestem tid af hvor efter den afsluttes')
+        .addStringOption(option => option.setName('title').setDescription('Hvad skal der stå titlen?').setRequired(true))
+        .addStringOption(option => option.setName('tekst').setDescription('Hvad skal der stemmes om?').setRequired(true)),
 
-        async execute(interaction) {
+    async execute(interaction) {
 
-        
+
         var Embed = new MessageEmbed()
-        .setTitle(interaction.options.getString('title'))
-        .setColor("#2186ba")
-        .setDescription(interaction.options.getString('question'))
-        .setFooter({ text: footerText })
+            .setTitle(interaction.options.getString('title'))
+            .setColor("#2186ba")
+            .setDescription(interaction.options.getString('tekst'))
+            .setFooter({ text: footerText })
 
-    
-		await interaction.channel.send({ embeds: [Embed] }).then( (interaction) => {
+        /*var d = new Date();
+        var m = d.getMinutes();
+        var h = d.getHours();
+        var s = d.getSeconds();
+        if (hours >= 12 && hours <= 21) {
+            console.log('We Are Closed');
+        } else {
+            console.log('We are Open');
+        }
+        // Slutter klokken 15:25
+        if (timer >= 15 && timer <= 24) {
+            if (minutter >= 25 && minutter <= 59) {
+                interaction.edit('Så er den afsluttet');
+            }        
+        }*/
+
+
+        await interaction.channel.send({ embeds: [Embed] }).then((interaction) => {
             interaction.react('👍')
-            .then(() => interaction.react('👎'))
+                .then(() => interaction.react('👎'))
         });
-	},
+    },
 };

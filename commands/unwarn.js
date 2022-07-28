@@ -8,13 +8,13 @@ module.exports = {
         .setName('unwarn')
         .setDescription('Fjern en advarsel fra en person')
         .addUserOption(option =>
-            option.setName('Person')
+            option.setName('person')
                 .setDescription('Hvem vil du fjerne en advarsel fra')
                 .setRequired(true)),
     async execute(interaction) {
 
         let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
-        let wUser = interaction.options.getMember('Person');
+        let wUser = interaction.options.getMember('person');
         warns[wUser.id].warns--;
 
         fs.writeFile("warnings.json", JSON.stringify(warns, null, 4), (err) => {

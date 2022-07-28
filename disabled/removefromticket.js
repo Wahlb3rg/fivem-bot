@@ -2,16 +2,16 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('add')
-    .setDescription('Tilføj en person til ticket')
+    .setName('fjern')
+    .setDescription('Fjern en person fra ticket')
     .addUserOption(option =>
-      option.setName('target')
-      .setDescription('Personen der skal tilføje')
+      option.setName('person')
+      .setDescription('Personen der skal fjernes')
       .setRequired(true)),
   async execute(interaction, client) {
     const guild = client.guilds.cache.get(interaction.guildId);
     const chan = guild.channels.cache.get(interaction.channelId);
-    const user = interaction.options.getUser('target');
+    const user = interaction.options.getUser('person');
 
     if (chan.name.includes('ticket')) {
       chan.edit({

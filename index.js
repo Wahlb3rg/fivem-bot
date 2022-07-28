@@ -1,6 +1,5 @@
 const { Client, Intents, Collection, Formatters, MessageActionRow, MessageSelectMenu } = require('discord.js');
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
-
 const botconfig = require('./botconfig.json'); // tager bot config 
 const { token } = require('./token.json'); // tager bot config 
 const client = new Client({
@@ -29,14 +28,22 @@ client.once('ready', (client) => { console.log(`Logget ind som ${client.user.use
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+// Slash Commands til alle andre 
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     console.log(`Loaded Slash commands ${file}.`); // printer hvilke kommandoer der er loaded
     console.log(`--------------------------`); // printer fin opstilling mellem kommandoer
     client.commands.set(command.data.name, command);
 }
+
+// Slash commands til ticket
+const eventFiles = fs.readdirSync('./ticket').filter(file => file.endsWith('.js'));
+for (const file of eventFiles) {
+    const event = require(`./ticket/${file}`);
+    client.on(event.name, (...args) => event.execute(...args, client));
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,16 +65,7 @@ client.on('interactionCreate', async interaction => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const eventFiles = fs.readdirSync('./ticket').filter(file => file.endsWith('.js'));
-
-for (const file of eventFiles) {
-    const event = require(`./ticket/${file}`);
-    client.on(event.name, (...args) => event.execute(...args, client));
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-fs.readdir("./normcommands/", (err, files) => { // læser directory omkring commands
+/*fs.readdir("./normcommands/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
     let jsfile = files.filter(f => f.split(".").pop() === "js")
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
@@ -84,7 +82,7 @@ fs.readdir("./normcommands/", (err, files) => { // læser directory omkring comm
     });
 });
 
-/*fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
+fs.readdir("./admin/", (err, files) => { // læser directory omkring commands
     if (err) console.log(err); //logger hvis der er fejl
     let jsfile = files.filter(f => f.split(".").pop() === "js")
     if (jsfile.length <= 0) { // hvis der er mindre eller lig med nul js filer kan den ikke finde kommandoerne da der ingen kommandoer er
@@ -118,12 +116,12 @@ sup(client)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 client.on('messageCreate', async message => {
-    let messageArray = message.content.split(" ");
+    /*let messageArray = message.content.split(" ");
     let args = messageArray.slice(1);                                   // Tager args
     let cmd = messageArray[0];                                          // tager det første ord som er lig med kommandoen
     let prefix = botconfig.prefix;                                      // Tager prefixet fra bot config
     let commandfile = client.commands.get(cmd.slice(prefix.length));    // Bruger kommando fra ekstern mappe
-    if (commandfile) commandfile.run(client, message, args);            // Hvis det er en kommando fra ekstern mappe skal den bruges alligevel
+    if (commandfile) commandfile.run(client, message, args);*/            // Hvis det er en kommando fra ekstern mappe skal den bruges alligevel
 
     if (!message.author.bot) {
         if (message.content.includes('support' || 'suport')) {
