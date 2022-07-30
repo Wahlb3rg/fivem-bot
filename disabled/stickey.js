@@ -5,9 +5,9 @@ module.exports = function (client, message) {
     console.log('Sticky messages')
     console.log('--------------------------')
 
-    let besked = JSON.parse(fs.readFileSync("normcommands/stickey.json", "utf8"));
+    /*let besked = JSON.parse(fs.readFileSync("normcommands/stickey.json", "utf8"));
 
-    /*client.on("messageCreate", async function (message) {
+    client.on("messageCreate", async function (message) {
         if (message.author.bot) return;
         let kanalen = message.channel.id;
         

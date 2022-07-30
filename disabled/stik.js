@@ -3,7 +3,7 @@ const fs = require("fs");
 
 module.exports.run = async (client, message, args) => {
 
-    let besked = JSON.parse(fs.readFileSync("normcommands/stickey.json", "utf8"));
+    //let besked = JSON.parse(fs.readFileSync("normcommands/stickey.json", "utf8"));
 
     if (message.member.roles.cache.some(role => role.name === 'Staff')) {
         try {
