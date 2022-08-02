@@ -22,7 +22,7 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
         Intents.FLAGS.DIRECT_MESSAGE_TYPING
     ]
-}); // botten er lig med dens client
+});
 
 client.once('ready', (client) => { console.log(`Logget ind som ${client.user.username}`) });
 
