@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, Formatters, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 const fs = require("fs"); // bruges til at læse commands fra anden mappe
 const botconfig = require('./botconfig.json'); // tager bot config 
 const { token } = require('./token.json'); // tager bot config 
@@ -43,7 +43,7 @@ const eventFiles = fs.readdirSync('./ticket').filter(file => file.endsWith('.js'
 for (const file of eventFiles) {
     const event = require(`./ticket/${file}`);
     client.on(event.name, (...args) => event.execute(...args, client));
-};
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -129,11 +129,11 @@ client.on('messageCreate', async message => {
         }
     }
 
-    //sletter alle beskder i ping kanalen 
+    //sletter alle beskeder i ping kanalen 
     if (message.channelId == 842817564290842686) {
         if (!message.content.includes('ping')) {
             if (!message.author.bot) {
-                message.delete();
+                await message.delete();
             }
         }
     }
