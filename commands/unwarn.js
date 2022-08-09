@@ -27,7 +27,7 @@ module.exports = {
             .addFields(
                 { name: 'Fjernet af ', value: `<@${interaction.user.id}> - Hash: ${interaction.user.tag} - ID: ${interaction.user.id}` },
                 { name: 'Brugeren', value: `${wUser} - Hash: ${wUser.user.tag} - ID: ${wUser.id}` },
-                { name: 'Det nye antal af advarlser er', value: `${warns[wUser.id].warns}` },
+                { name: 'Det nye antal af advarsler er', value: `${warns[wUser.id].warns}` },
             )
 
         let warnchannel = interaction.guild.channels.cache.find(channel => channel.id === botconfig.log);

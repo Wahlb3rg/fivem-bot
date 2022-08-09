@@ -16,9 +16,9 @@ module.exports = {
         let wUser = interaction.options.getMember('person');
               
         if (!warns[wUser.id] || warns[wUser.id].warns === 0) {
-            await interaction.reply({ content: `Denner person har ingen advarlser\nKeep up the good behavior`, ephemeral: false });
+            await interaction.reply({ content: `Denne person har ingen advarsler \nKeep up the good behavior`, ephemeral: false });
         } else {
-            await interaction.reply({ content: `<@${wUser.id}> har ${warns[wUser.id].warns} advarlser`, ephemeral: true });
+            await interaction.reply({ content: `<@${wUser.id}> har ${warns[wUser.id].warns} advarsler`, ephemeral: true });
         }
     },
 };

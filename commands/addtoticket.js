@@ -38,6 +38,6 @@ module.exports = {
         content: 'Du er ikke i en ticket!',
         ephemeral: true
       });
-    };
+    }
   },
 };

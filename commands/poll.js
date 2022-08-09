@@ -1,6 +1,6 @@
 const { footerText } = require("../botconfig.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, Message } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
 
 
-        var Embed = new MessageEmbed()
+        let Embed = new MessageEmbed()
             .setTitle(interaction.options.getString('title'))
             .setColor("#2186ba")
             .setDescription(interaction.options.getString('tekst'))

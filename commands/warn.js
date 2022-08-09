@@ -14,7 +14,7 @@ module.exports = {
 
         .addStringOption(option =>
             option.setName('grundlag')
-                .setDescription('Grundnen for warn')
+                .setDescription('Grunden for warn')
                 .setRequired(true)),
 
     async execute(interaction) {

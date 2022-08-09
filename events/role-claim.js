@@ -1,6 +1,6 @@
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const config = require('../botconfig.json');
-const wait = require('node:timers/promises');
+//const wait = require('node:timers/promises');
 module.exports = (client) => {
 
     client.on('interactionCreate', async interaction => {
@@ -41,7 +41,7 @@ module.exports = (client) => {
                 const embed = new MessageEmbed()
                     .setTitle('Ping Pong')
                     .setColor('6d6ee8')
-                    .setDescription('Hvis du gerne vil have ping skal du trykke på den grønne kanp\n\nHvis du gerne vil af med ping rollen igen skal du trykke på den røde kanp')
+                    .setDescription('Hvis du gerne vil have ping skal du trykke på den grønne knap\n\nHvis du gerne vil af med ping rollen igen skal du trykke på den røde knap')
 
                 if (!interaction.member.roles.cache.some(role => role.id === config.pingroleID)) {
                     await interaction.reply({ embeds: [embed], components: [til], ephemeral: true });
