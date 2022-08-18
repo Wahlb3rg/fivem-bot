@@ -125,7 +125,7 @@ client.on('messageCreate', async message => {
 
     if (!message.author.bot) {
         if (message.content.includes('support' || 'suport')) {
-            message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
+            await message.reply('Du kan få support ved at bruge comandoen /support eller du kan skrive i kanalen <#848850610794397696>');
         }
     }
 

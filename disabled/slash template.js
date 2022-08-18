@@ -29,12 +29,12 @@ module.exports = {
 
 	async execute(interaction) {
 
-        var besked = new MessageEmbed()
-        .setTitle()
-        .setDescription()// beskeden
-        .setFooter({ content:'Tak for at læse vores changelog :)' })
-        .setTimestamp()
-        .setColor(0x0000ff)
+		const besked = new MessageEmbed()
+			.setTitle()
+			.setDescription()// beskeden
+			.setFooter({content: 'Tak for at læse vores changelog :)'})
+			.setTimestamp()
+			.setColor(0x0000ff);
 
 		await interaction.reply({
 			content: 'Haha der trode du lige jeg ville skrive noget andet hva',

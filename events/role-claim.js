@@ -5,7 +5,7 @@ module.exports = (client) => {
 
     client.on('interactionCreate', async interaction => {
         try {
-            if (await interaction.commandName === 'ping') {
+            if (interaction.commandName === 'ping') {
                 //await interaction.deferReply();
                 const til = new MessageActionRow()
                     .addComponents(

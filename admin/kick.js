@@ -5,41 +5,36 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('kick')
-    .setDescription('Kick une personne.')
+    .setDescription('Kick enperson.')
     .addUserOption(option =>
       option.setName('target')
-      .setDescription('Membre à kick')
+      .setDescription('Person der skal have kick')
       .setRequired(true))
     .addStringOption(option =>
         option.setName('raison')
-        .setDescription('Raison du kick')
+        .setDescription('Grund til kick')
         .setRequired(false)),
   async execute(interaction, client) {
     const user = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.options.getUser('target').id);
     const executer = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.user.id);
 
-    if (!executer.permissions.has(client.discord.Permissions.FLAGS.KICK_MEMBERS)) return interaction.reply({
-      content: 'Vous n\'avez pas la permission requise pour éxecuter cette commande ! (`KICK_MEMBERS`)',
-      ephemeral: true
-    });
-
     if (user.roles.highest.rawPosition > executer.roles.highest.rawPosition) return interaction.reply({
-      content: 'La personne que vous souhaitez kick est au dessus de vous !',
+      content: 'Den person, du vil kicke, er over dig !',
       ephemeral: true
     });
 
     if (!user.kickable) return interaction.reply({
-      content: 'La personne que vous souhaitez kick est au dessus de moi ! Je ne peut donc pas le kick.',
+      content: 'Den person du prøver at kicke kan ikke kickes!',
       ephemeral: true
     });
 
     if (interaction.options.getString('raison')) {
-      user.kick(interaction.options.getString('raison'))
+      await user.kick(interaction.options.getString('raison'))
       interaction.reply({
-        content: `**${user.user.tag}** A été kick avec succès !`
+        content: `**${user.user.tag}** Blev kicket!`
       });
     } else {
-      user.kick()
+      await user.kick()
       interaction.reply({
         content: `**${user.user.tag}** A été kick avec succès !`
       });

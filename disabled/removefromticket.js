@@ -13,7 +13,7 @@ module.exports = {
     const chan = guild.channels.cache.get(interaction.channelId);
     const user = interaction.options.getUser('person');
 
-    if (chan.name.includes('ticket')) {
+    if (chan.name.includes('tickets')) {
       chan.edit({
         permissionOverwrites: [{
           id: user,

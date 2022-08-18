@@ -1,5 +1,4 @@
-const botconfig = require("../botconfig.json");
-const { Formatters, MessageEmbed } = require('discord.js');
+const { Formatters } = require('discord.js');
 module.exports = function (client) {
 
     const discordModals = require('discord-modals')

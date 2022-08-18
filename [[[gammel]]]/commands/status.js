@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const bot = new Discord.Client();
 const fivem = require("discord-fivem-api");
 const botconfig = require('../botconfig.json');
 const ip = botconfig.ip
@@ -24,14 +23,14 @@ module.exports.run = async (bot, message, args) => {
     for (let player of server.players) {
       result.push(`${index++}. ${player.name} | ${player.id} ID | ${player.ping} ping\n`);
     }
-    const påline = new Discord.MessageEmbed()
+    const paline = new Discord.MessageEmbed()
       .setColor("BLUE")
       .setAuthor("Serveren er online")
       .setTitle(`Spillere (${server.players.length}/${server.infos.vars.sv_maxClients})`)
       .setDescription(result)
       .setTimestamp()
       .setFooter('Lavet af wahlberg#6270');
-    message.channel.send(påline).then(msg => msg.delete({ timeout: 10000 }));;
+    message.channel.send(paline).then(msg => msg.delete({ timeout: 10000 }));;
   }).catch(err => {
     console.log(err).then(message.delete({ timeout: 100000 }));
     const ofline = new Discord.MessageEmbed()

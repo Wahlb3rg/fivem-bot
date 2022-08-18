@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('Viser ip\'en til vores server'),
 	async execute(interaction) {
 
-        let Embed = new MessageEmbed()
+        const Embed = new MessageEmbed()
         .setColor(0xFFFF00)
         .setTitle(`Ip til vores server!`)
         .setDescription(`Server:\`\`\`Connect ${publicIp}\`\`\``)//Teamspeak:\`\`\`94.130.237.93\`\`\`

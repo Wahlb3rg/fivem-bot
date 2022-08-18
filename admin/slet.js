@@ -10,7 +10,7 @@ message.channel.send(`Denne command er Dsv. WIP`)
 //    if(!args[0]) return message.channel.send("Du skal bruge et tal for eksempel. `slet 5`.").then(msg => msg.delete({ timeout: 5000 }))
 //    message.channel.bulkDelete(args[0]).then(() => {
 //    
-//        message.channel.send(`Slettede ${args[0]} beskeder.`).then(msg => msg.delete({ timeout: 5000 }))
+        message.channel.send(`Slettede ${args[0]} beskeder.`).then(msg => msg.delete({ timeout: 5000 }))
 //    });
 
 }

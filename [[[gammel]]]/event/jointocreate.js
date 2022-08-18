@@ -89,7 +89,7 @@ module.exports = function (client) {
       parent: user.channel.parent.id, //or set it as a category id
     }).then(async vc => {
       //move user to the new channel
-      user.setChannel(vc);
+      await user.setChannel(vc);
       //set the new channel to the map
       jointocreatemap.set(`tempvoicechannel_${vc.guild.id}_${vc.id}`, vc.id);
       //change the permissions of the channel

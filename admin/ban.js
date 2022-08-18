@@ -1,6 +1,4 @@
-const {
-  SlashCommandBuilder
-} = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,7 +32,7 @@ module.exports = {
     });
 
     if (interaction.options.getString('raison')) {
-      user.ban({
+      await user.ban({
         reason: interaction.options.getString('raison'),
         days: 1
       });
@@ -42,7 +40,7 @@ module.exports = {
         content: `**${user.user.tag}** A été banni avec succès !`
       });
     } else {
-      user.ban({
+      await user.ban({
         days: 1
       });
       interaction.reply({
