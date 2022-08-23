@@ -1,6 +1,6 @@
 #Mine ting
 token.json
-
+*.idea
 # Logs
 logs
 *.log
