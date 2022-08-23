@@ -1,48 +1,84 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-
+const { roleSupport } = require('../botconfig.json');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ticket')
     .setDescription('Manage ticket')
-      .addStringOption(option => option.setName('tekst')
-          .setDescription('Hvad skal botten sige?')
-          .setRequired(true))
-      .addStringOption(option => option.setName('tilføj eller fjern')
-          .setDescription('Skal der tilføjes eller fjernes en person')
-          .addChoice('Tilføj person', 'add')
-          .addChoice('Fjern person', 'remove')
-          ),
+    .addStringOption(option => option.setName('tilføj-fjern')
+      .setDescription('Skal der tilføjes eller fjernes en person')
+      .addChoice('Tilføj person', 'add').addChoice('Fjern person', 'remove')
+      .setRequired(true))
+    .addUserOption(option => option.setName('hvem')
+      .setDescription('Hvem skal tilføjes eller fjerne?')
+      .setRequired(true)),
 
-  async execute(interaction, client) {
-    /*const guild = client.guilds.cache.get(interaction.guildId);
-    const chan = guild.channels.cache.get(interaction.channelId);
-    const user = interaction.options.getUser('target');
+  async execute(interaction) {
+    //const guild = interaction.guilds.cache.get(interaction.guildId);
 
-    if (chan.name.includes('ticket')) {
-      chan.edit({
-        permissionOverwrites: [{
-          id: user,
-          allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
-        },
-        {
-          id: interaction.guild.roles.everyone,
-          deny: ['VIEW_CHANNEL'],
-        },
-          {
-            id: client.config.roleSupport,
-            allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
-          },
-      ],
-      }).then(async () => {
-        interaction.reply({
-          content: `<@${user.id}> blev tilføjet til ticket!`
-        });
-      });
+    const user = interaction.options.getUser('hvem');
+
+    //return console.log( interaction.channel );
+
+    if (!interaction.channel.name.includes('ticket')) return interaction.reply({ content: 'Du er ikke i en ticket!', ephemeral: true });
+    if (!(interaction.channel.topic === interaction.user.id || interaction.member.roles.cache.some(role => role.id === roleSupport))) {
+
+      return interaction.reply({ content: 'Du skal være den der oprettede ticketen for at tilføje eller fjerne medlemmer.', ephemeral: true });
+
     } else {
-      interaction.reply({
-        content: 'Du er ikke i en ticket!',
-        ephemeral: true
-      });
-    }*/
+      // TODO Gør så man kan tilføje personer og fjerne dem. Prob den tilføjer ikke folk rigtig og fjerner dem ikke rigtig
+      if (interaction.options.getString('tilføj-fjern') === 'add') {
+
+        interaction.channel.edit({
+          permissionOverwrites: [
+            {
+              id: user,
+              allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+            },
+            {
+              id: interaction.guild.roles.everyone,
+              deny: ['VIEW_CHANNEL'],
+            },
+            {
+              id: roleSupport,
+              allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+            },
+          ],
+        }).then(async () => {
+          interaction.reply({
+            content: `<@${user.id}> blev tilføjet til ticket!`
+          });
+        }).catch(err => { console.log(err) });
+
+      } else if (interaction.options.getString('tilføj-fjern') === 'remove') {
+
+
+        interaction.channel.edit({
+          permissionOverwrites: [
+            {
+              id: user,
+              deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+            },
+            {
+              id: interaction.guild.roles.everyone,
+              deny: ['VIEW_CHANNEL'],
+            },
+            {
+              id: roleSupport,
+              allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+            },
+          ],
+          }).then(async () => {
+            interaction.reply({
+              content: `<@${user.id}> blev tilføjet til ticket!`
+            });
+          });
+
+      } else {
+        return interaction.reply({ content: 'Der var en fejl skriv til Wahlberg hvis dette bliver ved med at ske', ephemeral: true });
+      }
+
+    }
   },
+
+
 };
