@@ -1,6 +1,7 @@
 const botconfig = require("../botconfig.json");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require("discord.js");
+const { roleledelse } = require("../botconfig.json");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,14 +29,22 @@ module.exports = {
                 .setTitle(interaction.options.getString('title'));
         }
 
-        if (interaction.options.getString('ping') === true) {
-            await interaction.channel.send({ embeds: [Embed], content: '<@&842817228248449074>' });
-        } else {
-            await interaction.channel.send({ embeds: [Embed] });
+        if (interaction.options.getString('ping') == null) {
+            return await interaction.channel.send({ embeds: [Embed] });
+
+        } else if (interaction.options.getString('ping') === 'ping') {
+            return await interaction.channel.send({ embeds: [Embed], content: '<@&842817228248449074>' });
+
+        } else if (interaction.options.getString('ping') === 'her') {
+            if (interaction.member.roles.cache.has(roleledelse)) return await interaction.channel.send({ embeds: [Embed], content: '@here' });
+
+        } else if (interaction.options.getString('ping') === 'alle') {
+            if (interaction.member.roles.cache.has(roleledelse)) return await interaction.channel.send({ embeds: [Embed], content: '@everyone' });
         }
 
-        if (interaction.options.getString('ping') === 'her' || 'alle') {
+        if (!interaction.member.roles.cache.has(roleledelse)) {
             await interaction.reply({ content: 'Det er kun ledelsen der kan pinge everyone og here', ephemeral: true });
+            await interaction.channel.send({ embeds: [Embed] });
         }
     },
 };
