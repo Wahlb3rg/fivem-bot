@@ -10,7 +10,11 @@ module.exports = {
         .addStringOption(option => option.setName('tekst').setDescription('Hvad skal der stemmes om?').setRequired(true)),
 
     async execute(interaction) {
-
+        /*
+        * TODO Gør så man kan sætte et tidspunkt den skal slutte
+        *   og så når den er slut så hvor mange stemmer der er
+        *   og den der har flest har vundet
+        */
 
         let Embed = new MessageEmbed()
             .setTitle(interaction.options.getString('title'))

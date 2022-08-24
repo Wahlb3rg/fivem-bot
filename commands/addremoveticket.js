@@ -60,7 +60,6 @@ module.exports = {
         }).catch(err => {
           console.log(err)
         });*/
-        await interaction.channel.permissionOverwrites.edit(tadadada.id, { ViewChannel: true });
 
       } else if (interaction.options.getString('tilføj-fjern') === 'remove') {
 
