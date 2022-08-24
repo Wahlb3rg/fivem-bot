@@ -47,8 +47,7 @@ module.exports = function (client) {
           console.log(" :: " + oldState.member.user.username + "#" + oldState.member.user.discriminator + " :: Room wurde gelöscht")
           //delete the voice channel
           return vc.delete();
-        }
-        else {
+        } else {
         }
       }
     }
@@ -72,8 +71,7 @@ module.exports = function (client) {
             console.log(" :: " + oldState.member.user.username + "#" + oldState.member.user.discriminator + " :: Left the room")
             //delete the room
             return vc.delete();
-          }
-          else {
+          } else {
           }
         }
       }

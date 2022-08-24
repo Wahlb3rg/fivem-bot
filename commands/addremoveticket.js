@@ -12,23 +12,33 @@ module.exports = {
       .setDescription('Hvem skal tilføjes eller fjerne?')
       .setRequired(true)),
 
-  async execute(interaction) {
+  execute: async function (interaction) {
     //const guild = interaction.guilds.cache.get(interaction.guildId);
 
-    const user = interaction.options.getUser('hvem');
+    const /*user*/ tadadada = interaction.options.getUser('hvem');
 
-    //return console.log( interaction.channel );
+    //return interaction.channel.reply({ content: 'Dette virker ikke lige nu få en staff til at få dem ind' });
 
-    if (!interaction.channel.name.includes('ticket')) return interaction.reply({ content: 'Du er ikke i en ticket!', ephemeral: true });
+    /*return console.log(interaction.guild.channels.get(interaction.channel.id).members.forEach((member) => {
+      console.log(member)
+    }))*/
+
+    if (!interaction.channel.name.includes('ticket')) return interaction.reply({
+      content: 'Du er ikke i en ticket!',
+      ephemeral: true
+    });
     if (!(interaction.channel.topic === interaction.user.id || interaction.member.roles.cache.some(role => role.id === roleSupport))) {
 
-      return interaction.reply({ content: 'Du skal være den der oprettede ticketen for at tilføje eller fjerne medlemmer.', ephemeral: true });
+      return interaction.reply({
+        content: 'Du skal være den der oprettede ticketen for at tilføje eller fjerne medlemmer.',
+        ephemeral: true
+      });
 
     } else {
       // TODO Gør så man kan tilføje personer og fjerne dem. Prob den tilføjer ikke folk rigtig og fjerner dem ikke rigtig
       if (interaction.options.getString('tilføj-fjern') === 'add') {
 
-        interaction.channel.edit({
+        /*interaction.channel.edit({
           permissionOverwrites: [
             {
               id: user,
@@ -47,7 +57,10 @@ module.exports = {
           interaction.reply({
             content: `<@${user.id}> blev tilføjet til ticket!`
           });
-        }).catch(err => { console.log(err) });
+        }).catch(err => {
+          console.log(err)
+        });*/
+        await interaction.channel.permissionOverwrites.edit(tadadada.id, { ViewChannel: true });
 
       } else if (interaction.options.getString('tilføj-fjern') === 'remove') {
 
@@ -67,14 +80,17 @@ module.exports = {
               allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
             },
           ],
-          }).then(async () => {
-            interaction.reply({
-              content: `<@${user.id}> blev tilføjet til ticket!`
-            });
+        }).then(async () => {
+          interaction.reply({
+            content: `<@${user.id}> blev tilføjet til ticket!`
           });
+        });
 
       } else {
-        return interaction.reply({ content: 'Der var en fejl skriv til Wahlberg hvis dette bliver ved med at ske', ephemeral: true });
+        return interaction.reply({
+          content: 'Der var en fejl skriv til Wahlberg hvis dette bliver ved med at ske',
+          ephemeral: true
+        });
       }
 
     }
