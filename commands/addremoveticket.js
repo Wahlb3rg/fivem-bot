@@ -10,7 +10,7 @@ module.exports = {
       .setRequired(true))
     .addUserOption(option => option.setName('hvem')
       .setDescription('Hvem skal tilføjes eller fjerne?')
-      .setRequired(true)),
+      .setRequired(true)),// Det her er en kommentar
 
   execute: async function (interaction) {
     //const guild = interaction.guilds.cache.get(interaction.guildId);
