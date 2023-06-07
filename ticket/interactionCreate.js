@@ -45,7 +45,7 @@ module.exports = {
           deny: ['VIEW_CHANNEL'],
         },
         ],
-        type: 'text',
+        //type: 'text',
       }).then(async c => {
         interaction.reply({
           content: `Din ticket er blevet oprette og du kan finde den her - <#${c.id}>`,
